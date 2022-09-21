@@ -9,4 +9,10 @@ export const {
   styled,
   theme,
   keyframes,
-} = createStitches()
+} = createStitches({
+  theme: {
+    fonts: {
+      body: 'Noto Sans JP, sans-serif',
+    },
+  },
+})
