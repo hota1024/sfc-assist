@@ -8,6 +8,8 @@ const globalStyles = globalCss({
   },
   body: {
     fontFamily: '$body',
+    background: '$backgroundColor',
+    color: '$textColor',
   },
 })
 
