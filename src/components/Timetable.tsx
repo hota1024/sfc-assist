@@ -103,7 +103,7 @@ export const Timetable: React.VFC<TimetableProps> = (props) => {
           <CourseCard
             key={c.name}
             course={c}
-            showDeleteIconOnHover
+            showControlIconsOnHover
             shareHover
             onDeleteClick={() => onCourseDelete(c)}
           />

@@ -1,8 +1,14 @@
 import { styled } from '@/stitches.config'
 import { Course } from '@/types/Course'
-import { faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
+import {
+  faPlus,
+  faTrash,
+  faInfoCircle,
+} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { atom, useAtom } from 'jotai'
+import { useState } from 'react'
+import { Dialog } from './Dialog'
 
 const hoveredNumberAtom = atom<string | null>(null)
 
@@ -72,6 +78,30 @@ const CourseCardDeleteIcon = styled('button', {
   },
 })
 
+const CourseCardInfoIcon = styled('button', {
+  position: 'absolute',
+  right: -4,
+  top: 36,
+  width: '32px',
+  height: '32px',
+  border: 'none',
+  borderRadius: '$2',
+  background: '$blueDark',
+  color: '$blueColor',
+  fontSize: '0.9rem',
+  cursor: 'pointer',
+  transition: 'all 120ms ease-in-out',
+  outline: '2px solid $blue',
+  '&:hover': {
+    background: '$blueDark',
+    color: '$blueColor',
+  },
+  '&:active': {
+    background: '$blueBlack',
+    color: '$blueColor',
+  },
+})
+
 const CourseCardRoot = styled('div', {
   position: 'relative',
   borderRadius: '$2',
@@ -92,6 +122,12 @@ const CourseCardRoot = styled('div', {
     opacity: 0,
   },
   [`&:hover > ${CourseCardDeleteIcon}`]: {
+    opacity: 1,
+  },
+  [`& > ${CourseCardInfoIcon}`]: {
+    opacity: 0,
+  },
+  [`&:hover > ${CourseCardInfoIcon}`]: {
     opacity: 1,
   },
 })
@@ -210,7 +246,7 @@ export type CourseCardProps = {
   onAddClick?: () => void
   showDeleteButton?: boolean
   onDeleteClick?: () => void
-  showDeleteIconOnHover?: boolean
+  showControlIconsOnHover?: boolean
   shareHover?: boolean
 }
 
@@ -225,10 +261,11 @@ export const CourseCard: React.VFC<CourseCardProps> = (props) => {
     onAddClick: onAddButtonClick,
     showDeleteButton,
     onDeleteClick,
-    showDeleteIconOnHover,
+    showControlIconsOnHover,
     shareHover,
   } = props
   const [hoveredNumber, setHoveredNumber] = useAtom(hoveredNumberAtom)
+  const [dialog, setDialog] = useState(false)
 
   return (
     <CourseCardRoot
@@ -236,10 +273,18 @@ export const CourseCard: React.VFC<CourseCardProps> = (props) => {
       onMouseLeave={() => setHoveredNumber(null)}
       hovered={shareHover && hoveredNumber === course.number}
     >
-      {showDeleteIconOnHover && (
-        <CourseCardDeleteIcon onClick={onDeleteClick}>
-          <FontAwesomeIcon icon={faTrash} />
-        </CourseCardDeleteIcon>
+      {showControlIconsOnHover && (
+        <>
+          <Dialog open={dialog} onClose={() => setDialog(false)}>
+            <CourseCard course={course} showDetails />
+          </Dialog>
+          <CourseCardDeleteIcon onClick={onDeleteClick}>
+            <FontAwesomeIcon icon={faTrash} />
+          </CourseCardDeleteIcon>
+          <CourseCardInfoIcon onClick={() => setDialog(true)}>
+            <FontAwesomeIcon icon={faInfoCircle} />
+          </CourseCardInfoIcon>
+        </>
       )}
       <CourseCardContent>
         <div>
