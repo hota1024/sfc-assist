@@ -45,7 +45,11 @@ export const HomePage: NextPage = () => {
     ) as string[]
 
     if (data && !loadedData) {
-      const courses = data.filter((c) => courseNumbers.includes(c.number))
+      let courses = data.filter((c) => courseNumbers.includes(c.number))
+      courses = courses.reduce(
+        (v, c) => (v.some((a) => a.number === c.number) ? v : [...v, c]),
+        [] as Course[]
+      )
 
       setCourses(courses)
       setLoadedData(true)
