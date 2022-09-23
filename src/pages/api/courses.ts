@@ -25,16 +25,10 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       )
     }
 
-    if (day) {
-      result = result.filter((course) => {
-        return course.dates.some((date) => date.day === day)
-      })
-    }
-
-    if (time) {
-      result = result.filter((course) => {
-        return course.dates.some((date) => date.time === time)
-      })
+    if (day && time) {
+      result = result.filter((c) =>
+        c.dates.some((d) => d.day === day && d.time === time)
+      )
     }
 
     if (!includeLab) {
