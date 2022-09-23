@@ -3,6 +3,11 @@
  */
 export type Course = {
   /**
+   * id
+   */
+  id: number
+
+  /**
    * 科目名
    */
   name: string

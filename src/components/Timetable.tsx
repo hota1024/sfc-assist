@@ -45,7 +45,7 @@ const TimetableCellAddButton = styled('button', {
   background: '$blueAlpha',
   color: '$blue',
   width: '100%',
-  height: '48px',
+  padding: '$2',
   fontSize: '1.4rem',
   border: 'none',
   borderRadius: '$2',
@@ -73,13 +73,15 @@ const TimetableRoot = styled('div', {
  */
 export type TimetableProps = {
   courses: Course[]
+  onAddClick: (day: string, time: number) => void
+  onCourseDelete: (course: Course) => void
 }
 
 /**
  * Timetable component.
  */
 export const Timetable: React.VFC<TimetableProps> = (props) => {
-  const { courses } = props
+  const { courses, onAddClick, onCourseDelete } = props
   const days = ['月', '火', '水', '木', '金']
   const times = [1, 2, 3, 4, 5, 6, 7]
 
@@ -97,9 +99,20 @@ export const Timetable: React.VFC<TimetableProps> = (props) => {
         .filter((c) =>
           c.dates.find((d) => d.day === day && d.time === time + '限')
         )
-        .map((c) => <CourseCard key={c.name} course={c} />)
+        .map((c) => (
+          <CourseCard
+            key={c.name}
+            course={c}
+            showDeleteIconOnHover
+            shareHover
+            onDeleteClick={() => onCourseDelete(c)}
+          />
+        ))
       cell.push(
-        <TimetableCellAddButton key="add-button">
+        <TimetableCellAddButton
+          key="add-button"
+          onClick={() => onAddClick(day, time)}
+        >
           <FontAwesomeIcon icon={faCirclePlus} />
         </TimetableCellAddButton>
       )
@@ -108,8 +121,6 @@ export const Timetable: React.VFC<TimetableProps> = (props) => {
       )
     }
   }
-
-  console.log(contents)
 
   return (
     <>
