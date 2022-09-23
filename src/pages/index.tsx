@@ -14,6 +14,7 @@ import {
   DialogTitle,
 } from '@/components/Dialog'
 import { CourseSearch } from '@/components/CourseSearch'
+import { TotalUnit } from '@/components/TotalUnit'
 
 const fetcher = () =>
   fetch('/api/courses').then((res) => res.json() as unknown as Course[])
@@ -79,6 +80,9 @@ export const HomePage: NextPage = () => {
       </Dialog>
       <Container>
         <SeasonTitle>2022年度 秋学期</SeasonTitle>
+        <TotalUnit>
+          合計単位数: {courses.reduce((u, c) => u + c.units, 0)}
+        </TotalUnit>
         <div style={{ margin: '16px 0' }}></div>
         {data && (
           <Timetable

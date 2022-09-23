@@ -203,9 +203,18 @@ const CourseCardUnit = styled('span', {
   color: '$blueColor',
   fontSize: '0.8rem',
   padding: '$1 $4',
+  variants: {
+    smart: {
+      true: {
+        borderRadius: '$1',
+        margin: '0 $1 $1 0',
+        padding: '0 $2',
+      },
+    },
+  },
 })
 
-const CourseCardFieldList = styled('div', {
+const CourseCardRow = styled('div', {
   overflow: 'scroll',
   marginBottom: '$1',
   scrollbarWidth: 'none',
@@ -219,7 +228,7 @@ const CourseCardField = styled('span', {
   fontSize: '0.8rem',
   padding: '0 $2',
   borderRadius: '$1',
-  background: '$blue',
+  background: '$red',
   color: '$blueColor',
   margin: '0 $1 $1 0',
   '&:first-child': {
@@ -311,11 +320,14 @@ export const CourseCard: React.VFC<CourseCardProps> = (props) => {
               </CourseCardDetailRow>
             </CourseCardDetails>
           )}
-          <CourseCardFieldList>
+          <CourseCardRow>
+            {!showDetails && (
+              <CourseCardUnit smart>{course.units}単位</CourseCardUnit>
+            )}
             {course.field.split('-').map((field) => (
               <CourseCardField key={field}>{field}</CourseCardField>
             ))}
-          </CourseCardFieldList>
+          </CourseCardRow>
         </div>
         <div>
           {showAddButton && (
