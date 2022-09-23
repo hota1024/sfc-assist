@@ -62,7 +62,7 @@ const NotFoundAlert = styled('div', {
   marginBottom: '$4',
 })
 
-const ToggleLabButton = styled('button', {
+const ToggleButton = styled('button', {
   color: '$blueColor',
   width: '128px',
   fontSize: '1rem',
@@ -115,6 +115,7 @@ export const CourseSearch: React.VFC<CourseSearchProps> = (props) => {
   const [loading, setLoading] = useState(false)
   const [notFound, setNotFound] = useState(false)
   const [includeLab, setIncludeLab] = useState(false)
+  const [includeLang, setIncludeLang] = useState(true)
 
   const fetchCourses = () => {
     setNotFound(false)
@@ -136,6 +137,7 @@ export const CourseSearch: React.VFC<CourseSearchProps> = (props) => {
     query.set('day', day)
     query.set('time', `${time}限`)
     query.set('lab', `${includeLab}`)
+    query.set('lang', `${includeLang}`)
 
     const controller = new AbortController()
     setAbortController(controller)
@@ -168,7 +170,7 @@ export const CourseSearch: React.VFC<CourseSearchProps> = (props) => {
 
   useEffect(() => {
     fetchCourses()
-  }, [day, time, bouncedSearchText, includeLab])
+  }, [day, time, bouncedSearchText, includeLab, includeLang])
 
   useEffect(() => {
     setNotFound(false)
@@ -192,12 +194,18 @@ export const CourseSearch: React.VFC<CourseSearchProps> = (props) => {
             }}
             value={searchText}
           />
-          <ToggleLabButton
+          <ToggleButton
             value={includeLab}
             onClick={() => setIncludeLab((v) => !v)}
           >
             研究 {includeLab ? 'ON' : 'OFF'}
-          </ToggleLabButton>
+          </ToggleButton>
+          <ToggleButton
+            value={includeLang}
+            onClick={() => setIncludeLang((v) => !v)}
+          >
+            言語 {includeLang ? 'ON' : 'OFF'}
+          </ToggleButton>
         </SearchContainer>
         {loading && (
           <p style={{ marginBottom: '16px', textAlign: 'center' }}>
