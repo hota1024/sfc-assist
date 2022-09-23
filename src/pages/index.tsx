@@ -55,7 +55,7 @@ export const HomePage: NextPage = () => {
   return (
     <>
       <Head>
-        <title>home - sfc-assist</title>
+        <title>ホーム - sfc-assist</title>
       </Head>
       <Dialog open={dialog} onClose={() => setDialog(false)}>
         <DialogContent>
@@ -68,6 +68,7 @@ export const HomePage: NextPage = () => {
               onDeleteCourse={(course) =>
                 setCourses((v) => v.filter((c) => c.id !== course.id))
               }
+              onCloseClick={() => setDialog(false)}
             />
           )}
         </DialogContent>

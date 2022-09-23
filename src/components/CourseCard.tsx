@@ -137,12 +137,36 @@ const CourseCardTeacherList = styled('div', {
   fontWeight: 600,
   marginBottom: '$2',
 })
+
 const CourseCardDetails = styled('div', {
   display: 'flex',
   fontSize: '0.95rem',
   color: '$grayText',
   fontWeight: 600,
   marginBottom: '$2',
+  flexFlow: 'column',
+  gap: '$4',
+})
+
+const CourseCardDetailRow = styled('div', {
+  display: 'flex',
+  gap: '$2',
+})
+
+const CourseCardDate = styled('div', {
+  borderRadius: '$2',
+  background: '$yellow',
+  color: '$yellowColor',
+  fontSize: '0.8rem',
+  padding: '$1 $2',
+})
+
+const CourseCardUnit = styled('span', {
+  borderRadius: '$2',
+  background: '$blue',
+  color: '$blueColor',
+  fontSize: '0.8rem',
+  padding: '$1 $4',
 })
 
 const CourseCardFieldList = styled('div', {
@@ -232,7 +256,14 @@ export const CourseCard: React.VFC<CourseCardProps> = (props) => {
           </CourseCardTeacherList>
           {showDetails && (
             <CourseCardDetails>
-              {course.dates.map((v) => `${v.day}曜${v.time}限`).join(', ')}
+              <CourseCardDetailRow>
+                <CourseCardUnit>{course.units}単位</CourseCardUnit>
+                {course.dates.map((v, key) => (
+                  <CourseCardDate key={key}>
+                    {v.day}曜{v.time}限
+                  </CourseCardDate>
+                ))}
+              </CourseCardDetailRow>
             </CourseCardDetails>
           )}
           <CourseCardFieldList>

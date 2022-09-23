@@ -8,10 +8,20 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     const searchText = query.s
     const day = query.day as string
     const time = query.time as string
+    const lab = (query.lab as string) === 'true' ? true : false
     let result = courses
 
+    result = result.filter((course) => course.semester !== '春学期')
+
     if (searchText.length > 0) {
-      result = result.filter((course) => course.name.includes(searchText))
+      result = result.filter(
+        (course) =>
+          course.name.includes(searchText) ||
+          course.teacherNames.some((teacherName) =>
+            teacherName.includes(searchText)
+          ) ||
+          course.field.includes(searchText)
+      )
     }
 
     if (day) {
@@ -24,6 +34,13 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       result = result.filter((course) => {
         return course.dates.some((date) => date.time === time)
       })
+    }
+    console.log(lab)
+
+    if (!lab) {
+      result = result.filter(
+        (course) => !course.field.includes('研究プロジェクト')
+      )
     }
 
     return res.status(200).json(result)
