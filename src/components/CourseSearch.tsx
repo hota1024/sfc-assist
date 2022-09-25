@@ -64,7 +64,7 @@ const NotFoundAlert = styled('div', {
 
 const ToggleButton = styled('button', {
   color: '$blueColor',
-  width: '128px',
+  width: '190px',
   fontSize: '1rem',
   border: 'none',
   borderRadius: '$2',
@@ -116,6 +116,7 @@ export const CourseSearch: React.VFC<CourseSearchProps> = (props) => {
   const [notFound, setNotFound] = useState(false)
   const [includeLab, setIncludeLab] = useState(false)
   const [includeLang, setIncludeLang] = useState(true)
+  const [includeMedia, setIncludeMedia] = useState(false)
 
   const fetchCourses = () => {
     setNotFound(false)
@@ -138,6 +139,7 @@ export const CourseSearch: React.VFC<CourseSearchProps> = (props) => {
     query.set('time', `${time}限`)
     query.set('lab', `${includeLab}`)
     query.set('lang', `${includeLang}`)
+    query.set('media', `${includeMedia}`)
 
     const controller = new AbortController()
     setAbortController(controller)
@@ -170,7 +172,7 @@ export const CourseSearch: React.VFC<CourseSearchProps> = (props) => {
 
   useEffect(() => {
     fetchCourses()
-  }, [day, time, bouncedSearchText, includeLab, includeLang])
+  }, [day, time, bouncedSearchText, includeLab, includeLang, includeMedia])
 
   useEffect(() => {
     setNotFound(false)
@@ -194,6 +196,12 @@ export const CourseSearch: React.VFC<CourseSearchProps> = (props) => {
             }}
             value={searchText}
           />
+          <ToggleButton
+            value={includeMedia}
+            onClick={() => setIncludeMedia((v) => !v)}
+          >
+            政メ {includeMedia ? 'ON' : 'OFF'}
+          </ToggleButton>
           <ToggleButton
             value={includeLab}
             onClick={() => setIncludeLab((v) => !v)}
