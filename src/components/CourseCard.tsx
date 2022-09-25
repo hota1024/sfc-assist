@@ -324,6 +324,11 @@ export const CourseCard: React.VFC<CourseCardProps> = (props) => {
             {!showDetails && (
               <CourseCardUnit smart>{course.units}単位</CourseCardUnit>
             )}
+            <CourseCardField
+              css={{ background: '$yellow', color: '$yellowColor' }}
+            >
+              {course.faculty}
+            </CourseCardField>
             {course.field.split('-').map((field) => (
               <CourseCardField key={field}>{field}</CourseCardField>
             ))}
