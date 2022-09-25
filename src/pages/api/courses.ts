@@ -10,6 +10,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     const time = query.time as string
     const includeLab = (query.lab as string) === 'true' ? true : false
     const includeLang = (query.lang as string) === 'true' ? true : false
+    const includeMedia = (query.media as string) === 'true' ? true : false
     let result = courses
 
     result = result.filter((course) => course.semester !== '春学期')
@@ -40,6 +41,12 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     if (!includeLang) {
       result = result.filter(
         (course) => !course.field.includes('言語コミュニケーション')
+      )
+    }
+
+    if (!includeMedia) {
+      result = result.filter(
+        (course) => !course.faculty.includes('政策・メディア研究科')
       )
     }
 
