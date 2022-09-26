@@ -15,15 +15,13 @@ import {
 } from '@/components/Dialog'
 import { CourseSearch } from '@/components/CourseSearch'
 import { TotalUnit } from '@/components/TotalUnit'
-
-const fetcher = () =>
-  fetch('/api/courses').then((res) => res.json() as unknown as Course[])
+import { fetchCourses } from '@/fetchers/courses'
 
 /**
  * HomePage component.
  */
 export const HomePage: NextPage = () => {
-  const { data, error } = useSWR('/api/courses', fetcher)
+  const { data, error } = useSWR('/api/courses', fetchCourses)
   const [dialog, setDialog] = useState(false)
   const [date, setDate] = useState<{ day: string; time: number }>()
   const [courses, setCourses] = useState<Course[]>([])
@@ -79,10 +77,13 @@ export const HomePage: NextPage = () => {
         </DialogContent>
       </Dialog>
       <Container>
-        <SeasonTitle>2022年度 秋学期</SeasonTitle>
-        <TotalUnit>
-          合計単位数: {courses.reduce((u, c) => u + c.units, 0)}
-        </TotalUnit>
+        <SeasonTitle>
+          2022年度 秋学期
+          <TotalUnit>
+            合計単位数: {courses.reduce((u, c) => u + c.units, 0)}
+          </TotalUnit>
+        </SeasonTitle>
+
         <div style={{ margin: '16px 0' }}></div>
         {data && (
           <Timetable
