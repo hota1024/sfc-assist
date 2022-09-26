@@ -6,6 +6,8 @@ import { fetchCourses } from '@/fetchers/courses'
 import { Timetable } from '@/components/Timetable'
 import { Course } from '@/types/Course'
 import { Container } from '@/components/Container'
+import { TotalUnit } from '@/components/TotalUnit'
+import { SeasonTitle } from '@/components/SeasonTitle'
 
 /**
  * View page.
@@ -40,6 +42,13 @@ export const ViewPage: NextPage = () => {
   return (
     <>
       <Container>
+        <SeasonTitle>
+          2022年度 秋学期
+          <TotalUnit>
+            合計単位数: {courses.reduce((u, c) => u + c.units, 0)}
+          </TotalUnit>
+        </SeasonTitle>
+        <div style={{ margin: '16px 0' }}></div>
         <Timetable courses={courses} hideActions />
       </Container>
     </>
