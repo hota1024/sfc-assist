@@ -2,7 +2,9 @@ import { styled } from '@/stitches.config'
 import { Course } from '@/types/Course'
 import { CourseCard } from './CourseCard'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCirclePlus } from '@fortawesome/free-solid-svg-icons'
+import { faCirclePlus, faShare } from '@fortawesome/free-solid-svg-icons'
+import { useState } from 'react'
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from './Dialog'
 
 const TimetableDay = styled('div', {
   display: 'flex',
@@ -62,6 +64,39 @@ const TimetableCellAddButton = styled('button', {
   },
 })
 
+const TimetableShareButton = styled('button', {
+  background: '$blue',
+  color: '$blueText',
+  width: '100%',
+  padding: '$2',
+  fontSize: '1.4rem',
+  border: 'none',
+  borderRadius: '$2',
+  outline: 'none',
+  cursor: 'pointer',
+  transition: 'all 120ms ease-in-out',
+  '&:hover': {
+    background: '$blueDark',
+    color: '$blueColor',
+  },
+  '&:active': {
+    background: '$blueBlack',
+    color: '$blueColor',
+  },
+})
+
+const TimetableShareField = styled('input', {
+  width: '100%',
+  fontSize: '1rem',
+  background: '$blueAlpha',
+  border: '2px solid $blue',
+  borderRadius: '$2',
+  outline: 'none',
+  padding: '$0 $3',
+  color: '$blueColor',
+  height: '48px',
+})
+
 const TimetableRoot = styled('div', {
   display: 'grid',
   gridTemplateColumns: '48px 1fr 1fr 1fr 1fr 1fr',
@@ -73,19 +108,31 @@ const TimetableRoot = styled('div', {
  */
 export type TimetableProps = {
   courses: Course[]
-  onAddClick: (day: string, time: number) => void
-  onCourseDelete: (course: Course) => void
+  onAddClick?: (day: string, time: number) => void
+  onCourseDelete?: (course: Course) => void
+  hideActions?: boolean
 }
 
 /**
  * Timetable component.
  */
 export const Timetable: React.VFC<TimetableProps> = (props) => {
-  const { courses, onAddClick, onCourseDelete } = props
+  const { courses, onAddClick, onCourseDelete, hideActions } = props
   const days = ['月', '火', '水', '木', '金']
   const times = [1, 2, 3, 4, 5, 6, 7]
+  const [dialog, setDialog] = useState(false)
+  const shareLink = `${
+    typeof window === 'undefined' ? '' : window.location.origin
+  }/view?q=${courses
+    .map((v) => v.number)
+    .map((v) => parseInt(v, 10).toString(36))
+    .join('.')}`
 
-  const contents: JSX.Element[] = [<div key="first"></div>]
+  const contents: JSX.Element[] = [
+    <TimetableShareButton key={'share'} onClick={() => setDialog(true)}>
+      <FontAwesomeIcon icon={faShare} />
+    </TimetableShareButton>,
+  ]
 
   for (const day of days) {
     contents.push(<TimetableDay key={day}>{day}</TimetableDay>)
@@ -103,19 +150,21 @@ export const Timetable: React.VFC<TimetableProps> = (props) => {
           <CourseCard
             key={c.name}
             course={c}
-            showControlIconsOnHover
+            showControlIconsOnHover={!hideActions}
             shareHover
-            onDeleteClick={() => onCourseDelete(c)}
+            onDeleteClick={() => onCourseDelete && onCourseDelete(c)}
           />
         ))
-      cell.push(
-        <TimetableCellAddButton
-          key="add-button"
-          onClick={() => onAddClick(day, time)}
-        >
-          <FontAwesomeIcon icon={faCirclePlus} />
-        </TimetableCellAddButton>
-      )
+      if (!hideActions) {
+        cell.push(
+          <TimetableCellAddButton
+            key="add-button"
+            onClick={() => onAddClick && onAddClick(day, time)}
+          >
+            <FontAwesomeIcon icon={faCirclePlus} />
+          </TimetableCellAddButton>
+        )
+      }
       contents.push(
         <TimetableCell key={`${time}-${day}`}>{cell}</TimetableCell>
       )
@@ -124,6 +173,18 @@ export const Timetable: React.VFC<TimetableProps> = (props) => {
 
   return (
     <>
+      <Dialog open={dialog} onClose={() => setDialog(false)}>
+        <DialogHeader>
+          <DialogTitle>時間割の共有</DialogTitle>
+        </DialogHeader>
+        <DialogContent>
+          <TimetableShareField
+            readOnly
+            value={shareLink}
+            onClick={(e) => e.currentTarget.select()}
+          />
+        </DialogContent>
+      </Dialog>
       <TimetableRoot>{contents}</TimetableRoot>
     </>
   )
