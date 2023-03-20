@@ -16,6 +16,43 @@ import {
 import { CourseSearch } from '@/components/CourseSearch'
 import { TotalUnit } from '@/components/TotalUnit'
 import { fetchCourses } from '@/fetchers/courses'
+import {
+  AppBar,
+  AppBarActions,
+  AppBarContent,
+  AppBarSubTitle,
+  AppBarTitle,
+} from '@/components/AppBar'
+import Image from 'next/image'
+import { styled } from '@/stitches.config'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlusCircle } from '@fortawesome/free-solid-svg-icons'
+import { UnitDetails } from '@/components/UnitDetails'
+
+const Button = styled('button', {
+  position: 'relative',
+  background: '$blueAlpha',
+  color: '$blue',
+  padding: '$2 $4',
+  fontSize: '1rem',
+  border: 'none',
+  borderRadius: '$2',
+  outline: 'none',
+  cursor: 'pointer',
+  transition: 'all 120ms ease-in-out',
+  '&:hover': {
+    background: '$blueDark',
+    color: '$blueColor',
+  },
+  '&:active': {
+    background: '$blueBlack',
+    color: '$blueColor',
+  },
+  '&:disabled': {
+    pointerEvents: 'none',
+    opacity: 0.2,
+  },
+})
 
 /**
  * HomePage component.
@@ -23,7 +60,8 @@ import { fetchCourses } from '@/fetchers/courses'
 export const HomePage: NextPage = () => {
   const { data, error } = useSWR('/api/courses', fetchCourses)
   const [dialog, setDialog] = useState(false)
-  const [date, setDate] = useState<{ day: string; time: number }>()
+  const [unitDialog, setUnitDialog] = useState(false)
+  const [date, setDate] = useState<{ day?: string; time?: number }>()
   const [courses, setCourses] = useState<Course[]>([])
   const [loadedData, setLoadedData] = useState(false)
 
@@ -80,19 +118,49 @@ export const HomePage: NextPage = () => {
               onAddCourse={(course) => setCourses((v) => [...v, course])}
               onDeleteCourse={deleteCourse}
               onCloseClick={() => setDialog(false)}
+              onDayTimeChange={({ day, time }) => setDate({ day, time })}
             />
           )}
         </DialogContent>
       </Dialog>
-      <Container>
-        <SeasonTitle>
-          2023年度 春学期
-          <TotalUnit>
-            合計単位数: {courses.reduce((u, c) => u + c.units, 0)}
-          </TotalUnit>
-        </SeasonTitle>
 
-        <div style={{ margin: '16px 0' }}></div>
+      <Dialog open={unitDialog} onClose={() => setUnitDialog(false)}>
+        <DialogContent>
+          <UnitDetails courses={courses} />
+        </DialogContent>
+      </Dialog>
+
+      <Container>
+        <AppBar>
+          <AppBarContent>
+            <Image
+              src="/logo.svg"
+              width={30}
+              height={30}
+              alt="sfc-assist-logo"
+            />
+            <AppBarTitle>SFC Assist</AppBarTitle>
+            <AppBarSubTitle>2023年度 / 春学期</AppBarSubTitle>
+          </AppBarContent>
+          <AppBarActions>
+            <Button
+              css={{ color: 'white' }}
+              onClick={() => setUnitDialog(true)}
+            >
+              {courses.reduce((u, c) => u + c.units, 0)}単位
+            </Button>
+            <Button
+              onClick={() => {
+                setDate({ day: undefined, time: undefined })
+                setDialog(true)
+              }}
+            >
+              <FontAwesomeIcon icon={faPlusCircle} />
+            </Button>
+          </AppBarActions>
+        </AppBar>
+
+        <div style={{ margin: '48px 0' }}></div>
         {data && (
           <Timetable
             courses={courses}
