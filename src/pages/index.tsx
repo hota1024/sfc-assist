@@ -27,6 +27,12 @@ export const HomePage: NextPage = () => {
   const [courses, setCourses] = useState<Course[]>([])
   const [loadedData, setLoadedData] = useState(false)
 
+  const deleteCourse = (course: Course) => {
+    setCourses((v) =>
+      v.filter((c) => !(c.id === course.id && c.name === course.name))
+    )
+  }
+
   useEffect(() => {
     if (!loadedData) {
       return
@@ -66,11 +72,13 @@ export const HomePage: NextPage = () => {
             <CourseSearch
               day={date.day}
               time={date.time}
-              isAddedCourse={(course) => courses.includes(course)}
-              onAddCourse={(course) => setCourses((v) => [...v, course])}
-              onDeleteCourse={(course) =>
-                setCourses((v) => v.filter((c) => c.id !== course.id))
+              isAddedCourse={(course) =>
+                courses.some(
+                  (c) => c.id === course.id && c.name === course.name
+                )
               }
+              onAddCourse={(course) => setCourses((v) => [...v, course])}
+              onDeleteCourse={deleteCourse}
               onCloseClick={() => setDialog(false)}
             />
           )}
@@ -78,7 +86,7 @@ export const HomePage: NextPage = () => {
       </Dialog>
       <Container>
         <SeasonTitle>
-          2022年度 秋学期
+          2023年度 春学期
           <TotalUnit>
             合計単位数: {courses.reduce((u, c) => u + c.units, 0)}
           </TotalUnit>
@@ -92,9 +100,7 @@ export const HomePage: NextPage = () => {
               setDate({ day, time })
               setDialog(true)
             }}
-            onCourseDelete={(course) =>
-              setCourses((v) => v.filter((c) => c.id !== course.id))
-            }
+            onCourseDelete={deleteCourse}
           />
         )}
       </Container>

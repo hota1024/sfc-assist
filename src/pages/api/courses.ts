@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import courses from './2022.json'
+import courses from './2023.json'
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const { query } = req
@@ -13,7 +13,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     const includeMedia = (query.media as string) === 'true' ? true : false
     let result = courses
 
-    result = result.filter((course) => course.semester !== '春学期')
+    result = result.filter((course) => course.semester === '春学期')
 
     if (searchText.length > 0) {
       result = result.filter(
