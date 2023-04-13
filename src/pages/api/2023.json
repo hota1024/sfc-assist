@@ -18680,17 +18680,17 @@
     "field": "先端科目-環境情報系",
     "units": 2,
     "kNumber": "",
-    "year": null,
-    "semester": "",
+    "year": 2023,
+    "semester": "春学期",
     "subSemester": "",
     "teacherNames": [
-      "2023 春学期"
+      "脇田 玲"
     ],
     "communicationType": "オンライン（ライブ）",
     "styles": [
       "講義",
-      " 演習",
-      " 遠隔あり"
+      "演習",
+      "遠隔あり"
     ],
     "dates": [
       {
