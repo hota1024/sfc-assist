@@ -134,13 +134,13 @@ export const HomePage: NextPage = () => {
         <AppBar>
           <AppBarContent>
             <Image
-              src="/logo.svg"
+              src="/logo_fall.svg"
               width={30}
               height={30}
               alt="sfc-assist-logo"
             />
             <AppBarTitle>SFC Assist</AppBarTitle>
-            <AppBarSubTitle>2023年度 / 春学期</AppBarSubTitle>
+            <AppBarSubTitle>2023年度 / 秋学期</AppBarSubTitle>
           </AppBarContent>
           <AppBarActions>
             <Button

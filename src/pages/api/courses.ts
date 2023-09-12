@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import courses from './2023.json'
+import courses from './2023f.json'
 
 function arrayChunk<T>(array: T[], size: number): T[][] {
   if (size <= 0) return [[]]
@@ -24,7 +24,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     let filteredCourses = courses
 
     filteredCourses = filteredCourses.filter(
-      (course) => course.semester === '春学期'
+      (course) => course.semester === '秋学期'
     )
 
     if (searchText.length > 0) {
