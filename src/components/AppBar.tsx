@@ -29,6 +29,10 @@ export const AppBarActions = styled('div', {
 export const AppBarTitle = styled('h1', {
   fontSize: '1rem',
   fontWeight: 'bold',
+  display: 'none',
+  '@md': {
+    display: 'initial',
+  },
 })
 
 export const AppBarSubTitle = styled('h2', {
