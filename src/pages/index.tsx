@@ -125,8 +125,19 @@ export const HomePage: NextPage = () => {
       </Dialog>
 
       <Dialog open={unitDialog} onClose={() => setUnitDialog(false)}>
-        <DialogContent>
+        <DialogContent css={{ position: 'relative' }}>
           <UnitDetails courses={courses} />
+          <Button
+            onClick={() => setUnitDialog(false)}
+            css={{
+              position: 'absolute',
+              bottom: '$4',
+              left: '$4',
+              right: '$4',
+            }}
+          >
+            閉じる
+          </Button>
         </DialogContent>
       </Dialog>
 
