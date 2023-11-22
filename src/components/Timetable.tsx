@@ -140,7 +140,7 @@ const TimetableTable = styled('table', {
 })
 
 const TimetableRoot = styled('div', {
-  height: 'calc(100vh - 64px)',
+  height: 'calc(100dvh - 64px + 16px)',
   paddingTop: '$4',
   overflow: 'auto',
   '@xl': {
