@@ -29,7 +29,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons'
 import { UnitDetails } from '@/components/UnitDetails'
 
-const Button = styled('button', {
+export const Button = styled('button', {
   position: 'relative',
   background: '$blueAlpha',
   color: '$blue',

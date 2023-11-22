@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCirclePlus, faShare } from '@fortawesome/free-solid-svg-icons'
 import { useState } from 'react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from './Dialog'
+import { Button } from '@/pages'
 
 const TimetableDayTh = styled('th', {
   position: 'sticky',
@@ -129,8 +130,9 @@ const TimetableShareField = styled('input', {
   border: '2px solid $blue',
   outline: 'none',
   padding: '$0 $3',
-  color: '$blueColor',
+  color: 'white',
   height: '48px',
+  borderRadius: '$2',
 })
 
 const TimetableTable = styled('table', {
@@ -227,6 +229,17 @@ export const Timetable: React.VFC<TimetableProps> = (props) => {
             value={shareLink}
             onClick={(e) => e.currentTarget.select()}
           />
+          <Button
+            onClick={() => setDialog(false)}
+            css={{
+              position: 'absolute',
+              bottom: '$4',
+              left: '$4',
+              right: '$4',
+            }}
+          >
+            閉じる
+          </Button>
         </DialogContent>
       </Dialog>
       <TimetableRoot>
