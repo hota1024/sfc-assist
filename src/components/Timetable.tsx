@@ -99,8 +99,14 @@ const TimetableShareField = styled('input', {
 
 const TimetableRoot = styled('div', {
   display: 'grid',
-  gridTemplateColumns: '48px 1fr 1fr 1fr 1fr 1fr',
+  padding: '$4',
   gap: '$3',
+  gridTemplateColumns: '48px 280px 280px 280px 280px 280px',
+  overflow: 'auto',
+  '@xl': {
+    gridTemplateColumns: '48px 1fr 1fr 1fr 1fr 1fr',
+    overflow: 'none',
+  },
 })
 
 /**
