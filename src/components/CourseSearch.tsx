@@ -12,7 +12,10 @@ const SearchContainer = styled('div', {
   display: 'grid',
   gap: '$2',
   marginBottom: '$4',
-  gridTemplateColumns: '8fr 3fr 1fr',
+  gridTemplateColumns: '3fr 8fr 1fr',
+  '@md': {
+    gridTemplateColumns: '3fr 8fr 1fr',
+  },
 })
 
 const SearchInput = styled('input', {
@@ -31,11 +34,11 @@ const SearchInput = styled('input', {
 })
 
 const CourseList = styled('div', {
-  height: '600px',
   overflowY: 'scroll',
   display: 'flex',
   flexFlow: 'column',
   gap: '$3',
+  height: 'calc(100% - 40px - 48px - 32px)',
 })
 
 const CloseButton = styled('button', {
@@ -276,175 +279,167 @@ export const CourseSearch: React.VFC<CourseSearchProps> = (props) => {
   }, [day, time])
 
   return (
-    <>
-      <div>
-        <SearchContainer>
-          <SearchInput
-            placeholder="科目名、教員名、分野名などで検索"
-            onChange={(e) => {
-              setSearchText(e.target.value)
-              cancel()
-            }}
-            value={searchText}
-          />
-          {/* <Popover>
-            <SettingButton>
-              {day}曜{time}限
-            </SettingButton>
-          </Popover> */}
-          <Popover
-            slots={{
-              trigger: (
-                <SettingButton css={{ color: 'rgba(255, 255, 255, 0.8)' }}>
-                  {!day && !time && '全曜日・全時限'}
-                  {day ? `${day}曜` : ''}
-                  {time ? `${time}限` : ''}
-                </SettingButton>
-              ),
-              content: (
-                <div style={{ textAlign: 'right' }}>
-                  <ToggleGroup
-                    type="single"
-                    value={day}
-                    onValueChange={(day) =>
-                      props.onDayTimeChange({ day, time })
-                    }
-                  >
-                    {['月', '火', '水', '木', '金'].map((d) => (
-                      <ToggleGroupItem key={d} value={d}>
-                        {d}曜
-                      </ToggleGroupItem>
-                    ))}
-                  </ToggleGroup>
-                  <div style={{ margin: '16px 0' }}></div>
-                  <ToggleGroup
-                    type="single"
-                    value={time ? time.toString() : undefined}
-                    onValueChange={(v) =>
-                      props.onDayTimeChange({ day, time: parseInt(v) })
-                    }
-                  >
-                    {[1, 2, 3, 4, 5, 6, 7].map((t) => (
-                      <ToggleGroupItem key={t} value={t.toString()}>
-                        {t}限
-                      </ToggleGroupItem>
-                    ))}
-                  </ToggleGroup>
-                </div>
-              ),
-            }}
-          />
-          {/* <Select
-            slots={{
-              trigger: <SettingButton>{day}曜</SettingButton>,
-            }}
-          />
-          <Select
-            slots={{
-              trigger: <SettingButton>{time}限</SettingButton>,
-            }}
-          /> */}
-          <Popover
-            slots={{
-              trigger: (
-                <SettingButton>
-                  <FontAwesomeIcon icon={faGear} />
-                </SettingButton>
-              ),
-              content: (
-                <div style={{ display: 'flex', flexFlow: 'column', gap: 16 }}>
-                  <ToggleButton
-                    value={includeMedia}
-                    onClick={() => setIncludeMedia((v) => !v)}
-                  >
-                    政メ {includeMedia ? 'ON' : 'OFF'}
-                  </ToggleButton>
-                  <ToggleButton
-                    value={includeLab}
-                    onClick={() => setIncludeLab((v) => !v)}
-                  >
-                    研究 {includeLab ? 'ON' : 'OFF'}
-                  </ToggleButton>
-                  <ToggleButton
-                    value={includeLang}
-                    onClick={() => setIncludeLang((v) => !v)}
-                  >
-                    言語 {includeLang ? 'ON' : 'OFF'}
-                  </ToggleButton>
-                </div>
-              ),
-            }}
-          />
-        </SearchContainer>
-        <CourseList ref={contentRef as any} css={{ position: 'relative' }}>
-          {loading && (
-            <>
-              <div
-                style={{
-                  position: 'absolute',
-                  left: 0,
-                  right: 0,
-                  top: 0,
-                  bottom: 0,
-                  zIndex: 998,
-                  background: 'rgba(0, 0, 0, 0.8)',
-                  borderRadius: '8px',
-                  display: 'grid',
-                  placeItems: 'center',
+    <div style={{ height: '100%' }}>
+      <SearchContainer>
+        <Popover
+          slots={{
+            trigger: (
+              <SettingButton
+                css={{
+                  fontSize: '0.9rem',
+                  '@md': {
+                    fontSize: 'initial',
+                  },
                 }}
               >
-                読み込み中...
+                {!day && !time && 'すべての時間'}
+                <span style={{ display: 'inline-block' }}>
+                  {day ? `${day}曜` : ''}
+                </span>
+                <span style={{ display: 'inline-block' }}>
+                  {time ? `${time}限` : ''}
+                </span>
+              </SettingButton>
+            ),
+            content: (
+              <div style={{ textAlign: 'right' }}>
+                <ToggleGroup
+                  type="single"
+                  value={day}
+                  onValueChange={(day) => props.onDayTimeChange({ day, time })}
+                >
+                  {['月', '火', '水', '木', '金'].map((d) => (
+                    <ToggleGroupItem key={d} value={d}>
+                      {d}曜
+                    </ToggleGroupItem>
+                  ))}
+                </ToggleGroup>
+                <div style={{ margin: '16px 0' }}></div>
+                <ToggleGroup
+                  type="single"
+                  value={time ? time.toString() : undefined}
+                  onValueChange={(v) =>
+                    props.onDayTimeChange({ day, time: parseInt(v) })
+                  }
+                >
+                  {[1, 2, 3, 4, 5, 6, 7].map((t) => (
+                    <ToggleGroupItem key={t} value={t.toString()}>
+                      {t}限
+                    </ToggleGroupItem>
+                  ))}
+                </ToggleGroup>
               </div>
-            </>
-          )}
-          {searchText !== '' && notFound && (
-            <NotFoundAlert>該当する科目が見つかりませんでした。</NotFoundAlert>
-          )}
-          {courses &&
-            courses.map((course, key) => (
-              <CourseCard
-                key={key}
-                course={course}
-                showDetails
-                showAddButton={!isAddedCourse(course)}
-                showDeleteButton={isAddedCourse(course)}
-                onAddClick={() => onAddCourse(course)}
-                onDeleteClick={() => onDeleteCourse(course)}
-              />
-            ))}
-        </CourseList>
-        <Footer>
-          <FooterContent>
-            <CloseButton
-              onClick={() => {
-                setLoading(false)
-                setNotFound(false)
-                onCloseClick()
-              }}
-            >
-              閉じる
-            </CloseButton>
-          </FooterContent>
-
-          <FooterContent>
-            <ActionButton onClick={onPrevClick} disabled={!hasPrev || loading}>
-              前へ
-            </ActionButton>
+            ),
+          }}
+        />
+        <SearchInput
+          placeholder="科目名、教員名、分野名などで検索"
+          onChange={(e) => {
+            setSearchText(e.target.value)
+            cancel()
+          }}
+          value={searchText}
+        />
+        <Popover
+          slots={{
+            trigger: (
+              <SettingButton>
+                <FontAwesomeIcon icon={faGear} />
+              </SettingButton>
+            ),
+            content: (
+              <div style={{ display: 'flex', flexFlow: 'column', gap: 16 }}>
+                <ToggleButton
+                  value={includeMedia}
+                  onClick={() => setIncludeMedia((v) => !v)}
+                >
+                  政メ {includeMedia ? 'ON' : 'OFF'}
+                </ToggleButton>
+                <ToggleButton
+                  value={includeLab}
+                  onClick={() => setIncludeLab((v) => !v)}
+                >
+                  研究 {includeLab ? 'ON' : 'OFF'}
+                </ToggleButton>
+                <ToggleButton
+                  value={includeLang}
+                  onClick={() => setIncludeLang((v) => !v)}
+                >
+                  言語 {includeLang ? 'ON' : 'OFF'}
+                </ToggleButton>
+              </div>
+            ),
+          }}
+        />
+      </SearchContainer>
+      <CourseList ref={contentRef as any} css={{ position: 'relative' }}>
+        {loading && (
+          <>
             <div
               style={{
-                display: 'flex',
-                alignItems: 'center',
-                color: 'rgba(255, 255, 255, 0.5)',
+                position: 'absolute',
+                left: 0,
+                right: 0,
+                top: 0,
+                bottom: 0,
+                zIndex: 998,
+                background: 'rgba(0, 0, 0, 0.8)',
+                borderRadius: '8px',
+                display: 'grid',
+                placeItems: 'center',
               }}
             >
-              {page + 1} / {totalPages}
+              読み込み中...
             </div>
-            <ActionButton onClick={onNextClick} disabled={!hasNext || loading}>
-              次へ
-            </ActionButton>
-          </FooterContent>
-        </Footer>
-      </div>
-    </>
+          </>
+        )}
+        {searchText !== '' && notFound && (
+          <NotFoundAlert>該当する科目が見つかりませんでした。</NotFoundAlert>
+        )}
+        {courses &&
+          courses.map((course, key) => (
+            <CourseCard
+              key={key}
+              course={course}
+              showDetails
+              showAddButton={!isAddedCourse(course)}
+              showDeleteButton={isAddedCourse(course)}
+              onAddClick={() => onAddCourse(course)}
+              onDeleteClick={() => onDeleteCourse(course)}
+            />
+          ))}
+      </CourseList>
+      <Footer>
+        <FooterContent>
+          <CloseButton
+            onClick={() => {
+              setLoading(false)
+              setNotFound(false)
+              onCloseClick()
+            }}
+          >
+            閉じる
+          </CloseButton>
+        </FooterContent>
+
+        <FooterContent>
+          <ActionButton onClick={onPrevClick} disabled={!hasPrev || loading}>
+            前へ
+          </ActionButton>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              color: 'rgba(255, 255, 255, 0.5)',
+            }}
+          >
+            {page + 1} / {totalPages}
+          </div>
+          <ActionButton onClick={onNextClick} disabled={!hasNext || loading}>
+            次へ
+          </ActionButton>
+        </FooterContent>
+      </Footer>
+    </div>
   )
 }

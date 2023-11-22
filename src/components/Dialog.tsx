@@ -25,10 +25,9 @@ const Backdrop = styled('div', {
 const DialogRoot = styled('div', {
   position: 'fixed',
   zIndex: 999,
-  maxWidth: '700px',
-  width: 'calc(100% - 64px)',
+  width: '100%',
+  height: '100%',
   background: '$backgroundColor',
-  borderRadius: '$2',
   transition: 'all 160ms ease-in-out',
   variants: {
     open: {
@@ -40,6 +39,12 @@ const DialogRoot = styled('div', {
       },
     },
   },
+  '@md': {
+    borderRadius: '$2',
+    maxWidth: '700px',
+    width: 'calc(100% - 32px)',
+    height: 'calc(100% - 128px)',
+  },
 })
 
 export const DialogHeader = styled('div', {
@@ -50,6 +55,7 @@ export const DialogTitle = styled('h2', {})
 
 export const DialogContent = styled('div', {
   padding: '$4',
+  height: '100%',
 })
 
 /**

@@ -13,11 +13,11 @@ import { Dialog } from './Dialog'
 const hoveredNumberAtom = atom<string | null>(null)
 
 const CourseCardAddButton = styled('button', {
-  width: '48px',
-  height: '48px',
+  width: '100%',
+  height: '32px',
   border: 'none',
+  borderRadius: '$2',
   outline: 'none',
-  borderRadius: '999px',
   background: '$blueAlpha',
   color: '$blue',
   fontSize: '1.2rem',
@@ -31,14 +31,19 @@ const CourseCardAddButton = styled('button', {
     background: '$blueBlack',
     color: '$blueColor',
   },
+  '@md': {
+    borderRadius: '999px',
+    width: '48px',
+    height: '48px',
+  },
 })
 
 const CourseCardDeleteButton = styled('button', {
-  width: '48px',
-  height: '48px',
+  width: '100%',
+  height: '32px',
   border: 'none',
+  borderRadius: '$2',
   outline: 'none',
-  borderRadius: '999px',
   background: '$redAlpha',
   color: '$red',
   fontSize: '1.2rem',
@@ -51,6 +56,11 @@ const CourseCardDeleteButton = styled('button', {
   '&:active': {
     background: '$redBlack',
     color: '$redColor',
+  },
+  '@md': {
+    borderRadius: '999px',
+    width: '48px',
+    height: '48px',
   },
 })
 
@@ -241,8 +251,12 @@ const CourseCardField = styled('span', {
 
 const CourseCardContent = styled('div', {
   display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
+  flexFlow: 'column',
+  '@md': {
+    flexFlow: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
 })
 
 /**
