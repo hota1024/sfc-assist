@@ -27,7 +27,8 @@ const DialogRoot = styled('div', {
   zIndex: 999,
   width: '100%',
   height: '100%',
-  background: '$backgroundColor',
+  background: 'rgba(0, 0, 0, 0.5)',
+  backdropFilter: 'blur(32px)',
   transition: 'all 160ms ease-in-out',
   variants: {
     open: {
@@ -40,6 +41,7 @@ const DialogRoot = styled('div', {
     },
   },
   '@md': {
+    background: '$backgroundColor',
     borderRadius: '$2',
     maxWidth: '700px',
     width: 'calc(100% - 32px)',
