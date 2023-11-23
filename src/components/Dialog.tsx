@@ -39,6 +39,11 @@ const DialogRoot = styled('div', {
         transform: 'scale(0.9)',
       },
     },
+    fitContent: {
+      true: {
+        height: 'fit-content',
+      },
+    },
   },
   '@md': {
     background: '$backgroundColor',
@@ -67,18 +72,23 @@ export type DialogProps = {
   open: boolean
   onClose: () => void
   children: React.ReactNode
+  fitContent?: boolean
 }
 
 /**
  * Dialog component.
  */
 export const Dialog: React.VFC<DialogProps> = (props) => {
-  const { open, onClose, children } = props
+  const { open, onClose, children, fitContent } = props
 
   return (
     <>
       <Backdrop visible={open} onClick={() => onClose()}>
-        <DialogRoot open={open} onClick={(e) => e.stopPropagation()}>
+        <DialogRoot
+          open={open}
+          onClick={(e) => e.stopPropagation()}
+          fitContent={fitContent}
+        >
           {children}
         </DialogRoot>
       </Backdrop>

@@ -298,7 +298,7 @@ export const CourseCard: React.VFC<CourseCardProps> = (props) => {
     >
       {showControlIconsOnHover && (
         <>
-          <Dialog open={dialog} onClose={() => setDialog(false)}>
+          <Dialog open={dialog} onClose={() => setDialog(false)} fitContent>
             <CourseCard course={course} showDetails />
           </Dialog>
           <CourseCardDeleteIcon onClick={onDeleteClick}>
